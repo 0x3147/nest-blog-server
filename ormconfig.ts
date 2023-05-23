@@ -20,11 +20,6 @@ const buildConnectionOptions = () => {
   // configService
   const config = { ...defaultConfig, ...envConfig }
 
-  const entitiesDir =
-    process.env.NODE_ENV === 'dev'
-      ? [__dirname + '/modules/**/entity/*.entity.ts']
-      : [__dirname + '/modules/**/entity/*.entity{.js,.ts}']
-
   return {
     type: config[ConfigEnum.DB_TYPE],
     host: config[ConfigEnum.DB_HOST],
@@ -32,11 +27,12 @@ const buildConnectionOptions = () => {
     username: config[ConfigEnum.DB_USERNAME],
     password: config[ConfigEnum.DB_PASSWORD],
     database: config[ConfigEnum.DB_DATABASE],
-    entities: entitiesDir,
+    entities: [`${__dirname}/../modules/**/*.entity{.ts,.js}`],
     // 同步本地的schema与数据库 -> 初始化的时候去使用
     synchronize: true,
-    // logging: process.env.NODE_ENV === 'development',
-    logging: false
+    logging: process.env.NODE_ENV === 'dev',
+    // logging: true,
+    autoLoadEntities: true
   } as TypeOrmModuleOptions
 }
 

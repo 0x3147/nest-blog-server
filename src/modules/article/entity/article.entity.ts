@@ -7,10 +7,12 @@ import {
   VersionColumn,
   ManyToMany,
   JoinTable,
-  OneToOne
+  ManyToOne,
+  JoinColumn
 } from 'typeorm'
 import { TagEntity } from '../../tag/entity/tag.entity'
 import { ArticleTypeEntity } from './article-type.entity'
+import { UserEntity } from '../../user/entity/user.entity'
 
 @Entity('article')
 export class ArticleEntity {
@@ -25,20 +27,25 @@ export class ArticleEntity {
   @VersionColumn()
   version: number
 
-  @Column('text')
+  @Column('varchar', { length: 40 })
   title: string
 
-  @Column('text')
+  @Column('varchar', { length: 200 })
   description: string
 
   @Column('text')
   content: string
 
-  @OneToOne(
+  @ManyToOne(() => UserEntity, (UserEntity) => UserEntity.articles)
+  @JoinColumn()
+  user: UserEntity
+
+  @ManyToOne(
     () => ArticleTypeEntity,
-    (ArticleTypeEntity) => ArticleTypeEntity.article
+    (ArticleTypeEntity) => ArticleTypeEntity.articles
   )
-  type: ArticleTypeEntity
+  @JoinColumn()
+  articleType: ArticleTypeEntity
 
   @ManyToMany(() => TagEntity, (TagEntity) => TagEntity.articles)
   @JoinTable({ name: 'articles_tags' })

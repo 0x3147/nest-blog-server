@@ -1,16 +1,25 @@
-import { Get, Post, Query, Controller, Body } from '@nestjs/common'
+import {
+  Get,
+  Post,
+  Query,
+  Controller,
+  Body,
+  UseInterceptors,
+  ClassSerializerInterceptor
+} from '@nestjs/common'
 import { ArticleService } from '../service/article.service'
 import { ListDTO } from '../dto/list.dto'
 import { NewArticleDto } from '../dto/new-article.dto'
 import { EditArticleDto } from '../dto/edit-article.dto'
 
 @Controller('article')
+@UseInterceptors(ClassSerializerInterceptor)
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
   @Get('list')
-  getAllArticles(@Query() listDTO: ListDTO) {
-    this.articleService.getAll(listDTO)
+  async getAllArticles(@Query() listDTO: ListDTO) {
+    return await this.articleService.getAll(listDTO)
   }
 
   @Get('detail/:id')
@@ -19,9 +28,9 @@ export class ArticleController {
   @Post('create')
   createNewArticle(@Body() newArticleDTO: NewArticleDto) {}
 
-  @Post('update/:id')
+  @Post('update')
   updateArticle(@Body() editArticleDTO: EditArticleDto) {}
 
-  @Post('delete/:id')
+  @Post('delete')
   deleteArticle(@Body('id') id: number) {}
 }

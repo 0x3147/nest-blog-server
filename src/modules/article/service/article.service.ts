@@ -11,15 +11,17 @@ export class ArticleService {
     private readonly articleRepository: Repository<ArticleEntity>
   ) {}
 
-  getAll(listDTO: ListDTO) {
-    const { page, pageSize } = listDTO
+  async getAll(listDTO: ListDTO) {
+    const { page = 1, pageSize = 10 } = listDTO
     const getAllQuery = this.articleRepository
       .createQueryBuilder('article')
-      .leftJoinAndSelect('article.type', 'type')
+      .leftJoinAndSelect('article.articleType', 'type')
       .leftJoinAndSelect('article.tags', 'tags')
+      .leftJoinAndSelect('article.user', 'user')
       .where({ isDelete: false })
       .skip((page - 1) * pageSize)
       .take(pageSize)
       .getMany()
+    return await getAllQuery
   }
 }

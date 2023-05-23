@@ -5,6 +5,8 @@ import * as winston from 'winston'
 import { Console } from 'winston/lib/winston/transports'
 import * as DailyRotateFile from 'winston-daily-rotate-file'
 import { LogEnum } from '../../enum/config'
+import { LogController } from './controller/log.controller'
+import { LogService } from './service/log.service'
 
 function createDailyRotateTransport(level: string, filename: string) {
   return new DailyRotateFile({
@@ -28,8 +30,9 @@ function createDailyRotateTransport(level: string, filename: string) {
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const consoleTransports = new Console({
-          level: 'info',
+          level: 'debug',
           format: winston.format.combine(
+            winston.format.colorize(),
             winston.format.timestamp(),
             utilities.format.nestLike()
           )
@@ -48,6 +51,8 @@ function createDailyRotateTransport(level: string, filename: string) {
         } as WinstonModuleOptions
       }
     })
-  ]
+  ],
+  controllers: [LogController],
+  providers: [LogService]
 })
 export class LogModule {}

@@ -2,8 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
@@ -17,9 +16,8 @@ export class ArticleTypeEntity {
   @Column('text')
   articleTypeName: string
 
-  @OneToOne(() => ArticleEntity)
-  @JoinColumn()
-  article: ArticleEntity
+  @OneToMany(() => ArticleEntity, (ArticleEntity) => ArticleEntity.articleType)
+  articles: ArticleEntity[]
 
   @CreateDateColumn()
   createTime: Date

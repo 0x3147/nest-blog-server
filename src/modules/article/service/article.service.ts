@@ -11,7 +11,13 @@ export class ArticleService {
     private readonly articleRepository: Repository<ArticleEntity>
   ) {}
 
-  async getAll(listDTO: ListDTO) {
+  /**
+   * @desc 查询所有文章
+   * @Author 康佳星
+   * @Date 2023-04-24 18:33:30
+   * @param listDTO 查询所有文章的DTO
+   */
+  async getAllWithPagination(listDTO: ListDTO) {
     const { page = 1, pageSize = 10 } = listDTO
     const getAllQuery = this.articleRepository
       .createQueryBuilder('article')
@@ -22,6 +28,19 @@ export class ArticleService {
       .skip((page - 1) * pageSize)
       .take(pageSize)
       .getMany()
+    return await getAllQuery
+  }
+
+  /**
+   * @desc 查询所有文章的数量
+   * @Author 康佳星
+   * @Date 2023-04-24 18:34:53
+   */
+  async getAllCount() {
+    const getAllQuery = this.articleRepository
+      .createQueryBuilder('article')
+      .where({ isDelete: false })
+      .getCount()
     return await getAllQuery
   }
 }

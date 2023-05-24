@@ -11,7 +11,7 @@ import { ArticleEntity } from './article.entity'
 @Entity('article_type')
 export class ArticleTypeEntity {
   @PrimaryGeneratedColumn()
-  id: number
+  id: string
 
   @Column('text')
   articleTypeName: string
@@ -19,9 +19,9 @@ export class ArticleTypeEntity {
   @OneToMany(() => ArticleEntity, (ArticleEntity) => ArticleEntity.articleType)
   articles: ArticleEntity[]
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamp' })
   createTime: Date
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamp' })
   updateTime: Date
 }

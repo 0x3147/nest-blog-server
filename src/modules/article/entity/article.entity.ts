@@ -13,6 +13,7 @@ import {
 import { TagEntity } from '../../tag/entity/tag.entity'
 import { ArticleTypeEntity } from './article-type.entity'
 import { UserEntity } from '../../user/entity/user.entity'
+import { Exclude } from 'class-transformer'
 
 @Entity('article')
 export class ArticleEntity {
@@ -22,6 +23,7 @@ export class ArticleEntity {
   @Column({
     default: false
   })
+  @Exclude()
   isDelete: boolean
 
   @VersionColumn()
@@ -51,9 +53,9 @@ export class ArticleEntity {
   @JoinTable({ name: 'articles_tags' })
   tags: []
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamp' })
   createTime: Date
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamp' })
   updateTime: Date
 }

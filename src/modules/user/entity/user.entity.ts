@@ -12,7 +12,7 @@ import { Exclude } from 'class-transformer'
 @Entity('user')
 export class UserEntity {
   @PrimaryGeneratedColumn()
-  id: number
+  id: string
 
   @Column({ nullable: true })
   username: string
@@ -34,9 +34,9 @@ export class UserEntity {
   @OneToMany(() => ArticleEntity, (ArticleEntity) => ArticleEntity.user)
   articles: ArticleEntity[]
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamp' })
   createTime: Date
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamp' })
   updateTime: Date
 }

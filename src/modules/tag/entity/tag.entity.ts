@@ -7,15 +7,17 @@ import {
   UpdateDateColumn
 } from 'typeorm'
 import { ArticleEntity } from '../../article/entity/article.entity'
+import { Exclude } from 'class-transformer'
 
-@Entity()
+@Entity('tags')
 export class TagEntity {
   @PrimaryGeneratedColumn()
-  id: number
+  id: string
 
   @Column({
     default: false
   })
+  @Exclude()
   isDelete: boolean
 
   @Column('text')
@@ -24,9 +26,9 @@ export class TagEntity {
   @ManyToMany(() => ArticleEntity, (ArticleEntity) => ArticleEntity.tags)
   articles: []
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamp' })
   createTime: Date
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamp' })
   updateTime: Date
 }

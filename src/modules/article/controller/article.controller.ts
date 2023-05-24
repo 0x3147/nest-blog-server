@@ -19,7 +19,12 @@ export class ArticleController {
 
   @Get('list')
   async getAllArticles(@Query() listDTO: ListDTO) {
-    return await this.articleService.getAll(listDTO)
+    return await this.articleService.getAllWithPagination(listDTO)
+  }
+
+  @Get('/list/count')
+  async getAllArticlesCount() {
+    return await this.articleService.getAllCount()
   }
 
   @Get('detail/:id')

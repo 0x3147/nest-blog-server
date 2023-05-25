@@ -5,7 +5,8 @@ import {
   Controller,
   Body,
   UseInterceptors,
-  ClassSerializerInterceptor
+  ClassSerializerInterceptor,
+  Param
 } from '@nestjs/common'
 import { ArticleService } from '../service/article.service'
 import { ListDTO } from '../dto/list.dto'
@@ -28,7 +29,9 @@ export class ArticleController {
   }
 
   @Get('detail/:id')
-  getArticleDetail(@Query('id') id: number) {}
+  async getArticleDetail(@Param('id') id: number) {
+    return await this.articleService.findOneArticle(id)
+  }
 
   @Post('create')
   createNewArticle(@Body() newArticleDTO: NewArticleDto) {}
@@ -36,6 +39,10 @@ export class ArticleController {
   @Post('update')
   updateArticle(@Body() editArticleDTO: EditArticleDto) {}
 
-  @Post('delete')
-  deleteArticle(@Body('id') id: number) {}
+  @Post('remove')
+  async removeArticle(@Body('id') id: number) {
+    await this.articleService.removeArticle(id)
+    const count = await this.articleService.getAllCount()
+    return { effectiveCount: count }
+  }
 }

@@ -17,13 +17,17 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     const exceptionResponse: any = exception.getResponse()
     let validatorMessage = exceptionResponse
-    if (typeof validatorMessage === 'object') {
+    let validatorCode
+    if (validatorMessage instanceof Array) {
       validatorMessage = exceptionResponse.message[0]
+    } else if (validatorMessage instanceof Object) {
+      validatorMessage = exceptionResponse.errMsg
+      validatorCode = exceptionResponse.errCode
     }
 
     response.status(status).json({
       success: false,
-      code: status,
+      code: validatorCode || status,
       message: validatorMessage || message,
       timeStamps: new Date().toLocaleString()
     })

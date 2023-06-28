@@ -35,9 +35,9 @@ export class UserController {
         }
       })
       res.headers['authorization'] = `bearer ${token}`
-      return 'login success'
+      return '登录成功'
     } else {
-      return 'login fail'
+      return '登陆失败'
     }
   }
 

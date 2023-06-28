@@ -8,6 +8,7 @@ import { connectionParams } from '../ormconfig'
 import { ArticleModule } from './modules/article/article.module'
 import { TagModule } from './modules/tag/tag.module'
 import { UserModule } from './modules/user/user.module'
+import { JwtModule } from '@nestjs/jwt'
 
 const envFilePath = `.env.${process.env.NODE_ENV || 'dev'}`
 
@@ -34,6 +35,13 @@ const envFilePath = `.env.${process.env.NODE_ENV || 'dev'}`
       })
     }),
     TypeOrmModule.forRoot(connectionParams),
+    JwtModule.register({
+      global: true,
+      secret: 'kang',
+      signOptions: {
+        expiresIn: '7d'
+      }
+    }),
     LogModule,
     ArticleModule,
     TagModule,

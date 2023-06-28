@@ -1,13 +1,19 @@
 export enum BlogExceptionCodeEnum {
-  NEED_USER_NAME = '10001',
-  NEED_PASSWORD = '10002',
-  Article_NOT_FOUND = '10003',
-  ARTICLE_NOT_EXIST = '10004'
+  USER_EXIST = '10001',
+  INVITE_CODE_ERROR = '10002',
+  REGISTER_FAIL = '10003',
+  USER_NOT_EXIST = '10004',
+  PASSWORD_ERROR = '10005',
+  Article_NOT_FOUND = '10006',
+  ARTICLE_NOT_EXIST = '10007'
 }
 
 export enum BlogExceptionMsgEnum {
-  NEED_USER_NAME = '用户名不能为空',
-  NEED_PASSWORD = '密码不能为空',
+  USER_EXIST = '用户名已存在',
+  INVITE_CODE_ERROR = '邀请码错误',
+  REGISTER_FAIL = '注册失败，请联系管理员',
+  USER_NOT_EXIST = '用户不存在',
+  PASSWORD_ERROR = '密码错误',
   Article_NOT_FOUND = '未找到该文章',
   ARTICLE_NOT_EXIST = '该文章已不存在'
 }

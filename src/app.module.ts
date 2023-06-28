@@ -3,8 +3,12 @@ import { ConfigModule } from '@nestjs/config'
 import * as dotenv from 'dotenv'
 import * as Joi from 'joi'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { LogModule } from './modules/log/log.module'
+import { LogModule } from './common/log/log.module'
 import { connectionParams } from '../ormconfig'
+import { ArticleModule } from './modules/article/article.module'
+import { TagModule } from './modules/tag/tag.module'
+import { UserModule } from './modules/user/user.module'
+import { JwtModule } from '@nestjs/jwt'
 
 const envFilePath = `.env.${process.env.NODE_ENV || 'dev'}`
 
@@ -31,7 +35,17 @@ const envFilePath = `.env.${process.env.NODE_ENV || 'dev'}`
       })
     }),
     TypeOrmModule.forRoot(connectionParams),
-    LogModule
+    JwtModule.register({
+      global: true,
+      secret: 'kang',
+      signOptions: {
+        expiresIn: '7d'
+      }
+    }),
+    LogModule,
+    ArticleModule,
+    TagModule,
+    UserModule
   ],
   providers: [Logger],
   exports: [Logger]

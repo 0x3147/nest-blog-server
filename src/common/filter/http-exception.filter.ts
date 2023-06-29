@@ -21,8 +21,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
     if (validatorMessage instanceof Array) {
       validatorMessage = exceptionResponse.message[0]
     } else if (validatorMessage instanceof Object) {
-      validatorMessage = exceptionResponse.errMsg
-      validatorCode = exceptionResponse.errCode
+      validatorMessage =
+        exceptionResponse.errMsg || exceptionResponse.message[0]
+      validatorCode = exceptionResponse.errCode || exceptionResponse.statusCode
     }
 
     response.status(status).json({

@@ -12,6 +12,8 @@ import { LoginDto } from '../dto/login.dto'
 import { RegisterDto } from '../dto/register.dto'
 import { JwtService } from '@nestjs/jwt'
 
+import type { Response } from 'express'
+
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
@@ -34,7 +36,7 @@ export class UserController {
           username: loginUser.username
         }
       })
-      res.headers['authorization'] = `bearer ${token}`
+      res.setHeader('authorization', `bearer ${token}`)
       return '登录成功'
     } else {
       return '登陆失败'
